@@ -1,0 +1,16 @@
+language: python
+python:
+  - "2.7"
+# command to install dependencies
+install: "pip install -r requirements.txt"
+install: "python setup.py bdist_wheel"
+install:
+  - travis_retry pip install pylint
+  - travis_retry pip install -r requirements.txt
+  - travis_retry pip install pytest-cov coverage coveralls codacy-coverage codeclimate-test-reporter
+# command to run tests
+script: nosetests
+
+after_success:
+  - pylint countbyalexa
+  - CODECLIMATE_REPO_TOKEN=b40ff81e1d0b47f2b1a4ba3b0d79049c0b0ab1fba3d308049c669ab95cea7358 codeclimate-test-reporter
