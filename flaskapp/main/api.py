@@ -2,15 +2,14 @@
 # -*- coding: utf-8 -*-
 """FlaskApp Main Module."""
 
-from . import main
-from .models import User
 from flask import jsonify
 from flask import make_response
 from flask import request
 from flask import abort
 from sqlalchemy import exc
 from .. import db
-
+from . import main
+from .models import User
 
 @main.route('/users', methods=['GET', 'POST'])
 def getUsers():
