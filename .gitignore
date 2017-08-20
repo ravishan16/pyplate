@@ -20,6 +20,8 @@ lib64/
 parts/
 sdist/
 var/
+.coverage
+migration/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -87,3 +89,4 @@ ENV/
 
 # Rope project settings
 .ropeproject
+.idea
