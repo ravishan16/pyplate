@@ -3,7 +3,7 @@ Flask Microservice App
 
 Simple Flask App, SQLAchemy, SQLite, Gunicorn, Docker, Microservice, Python
 
-[![Build Status](https://travis-ci.org/ravishan16/FlaskApp.svg?branch=master)](https://travis-ci.org/ravishan16/FlaskApp)[![Code Climate](https://codeclimate.com/github/ravishan16/FlaskApp/badges/gpa.svg)](https://codeclimate.com/github/FlaskApp/CountByAlexa)[![Test Coverage](https://codeclimate.com/github/ravishan16/FlaskApp/badges/coverage.svg)](https://codeclimate.com/github/ravishan16/FlaskApp/coverage)[![Issue Count](https://codeclimate.com/github/ravishan16/FlaskApp/badges/issue_count.svg)](https://codeclimate.com/github/ravishan16/FlaskApp)
+[![Build Status](https://travis-ci.org/ravishan16/FlaskApp.svg?branch=master)](https://travis-ci.org/ravishan16/FlaskApp)[![Code Climate](https://codeclimate.com/github/ravishan16/FlaskApp/badges/gpa.svg)](https://codeclimate.com/github/FlaskApp/CountByAlexa)[![Test Coverage](https://codeclimate.com/github/ravishan16/FlaskApp/badges/coverage.svg)](https://codeclimate.com/github/ravishan16/FlaskApp)[![Issue Count](https://codeclimate.com/github/ravishan16/FlaskApp/badges/issue_count.svg)](https://codeclimate.com/github/ravishan16/FlaskApp)
 
 Setup DB
 ========
