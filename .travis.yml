@@ -13,4 +13,4 @@ script: nosetests
 
 after_success:
   - pylint flaskapp
-  - CODECLIMATE_REPO_TOKEN=b40ff81e1d0b47f2b1a4ba3b0d79049c0b0ab1fba3d308049c669ab95cea7358 codeclimate-test-reporter
+  - CODECLIMATE_REPO_TOKEN=88a60b0410ab563e69eba87a32a1c25f0a9413469c68793f952cd20b4ead30e7 codeclimate-test-reporter
