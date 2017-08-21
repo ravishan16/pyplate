@@ -24,7 +24,8 @@ setup(
         'flask_debugtoolbar',
         'Flask-Script',
         'Flask-Migrate',
-        'flask_testing'
+        'flask_testing',
+        'coverage>=4.0,<4.4'
     ],
     test_suite='nose.collector',
     tests_require=['nose'],
