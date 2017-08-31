@@ -4,6 +4,7 @@ Flask Microservice App
 Simple Flask App, SQLAchemy, SQLite, Gunicorn, Docker, Microservice, Python
 
 [![Build Status](https://travis-ci.org/ravishan16/FlaskApp.svg?branch=master)](https://travis-ci.org/ravishan16/FlaskApp)[![Code Climate](https://codeclimate.com/github/ravishan16/FlaskApp/badges/gpa.svg)](https://codeclimate.com/github/FlaskApp/CountByAlexa)[![Test Coverage](https://codeclimate.com/github/ravishan16/FlaskApp/badges/coverage.svg)](https://codeclimate.com/github/ravishan16/FlaskApp)[![Issue Count](https://codeclimate.com/github/ravishan16/FlaskApp/badges/issue_count.svg)](https://codeclimate.com/github/ravishan16/FlaskApp)
+[![Docker Hub](https://hub.docker.com/public/images/logos/mini-logo.svg)](https://hub.docker.com/r/ravishan/flaskapp/)
 
 Setup DB
 ========
@@ -31,6 +32,12 @@ docker build -t flaskapi-docker:0.0.1 .
 
 ``` shell
 docker run -d -p 8000:4000 --name flaskapp flaskapi-docker:0.0.1 
+```
+
+## Docker Pull and Run 
+
+``` shell
+docker run -d -p 8000:4000 --name flaskapp ravishan/flaskapp
 ```
 
 ##  Check Docker Status
