@@ -1,83 +1,146 @@
-Flask Microservice App
-======================
+# PyPlate FastAPI - Project Gutenberg API
 
-Simple Flask App, SQLAchemy, SQLite, Gunicorn, Docker, Microservice, Python
+[![Test](https://github.com/ravishan16/pyplate/actions/workflows/test.yml/badge.svg)](https://github.com/ravishan16/pyplate/actions/workflows/test.yml)
+[![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[![Build Status](https://travis-ci.org/ravishan16/FlaskApp.svg?branch=master)](https://travis-ci.org/ravishan16/FlaskApp)[![Code Climate](https://codeclimate.com/github/ravishan16/FlaskApp/badges/gpa.svg)](https://codeclimate.com/github/FlaskApp/CountByAlexa)[![Test Coverage](https://codeclimate.com/github/ravishan16/FlaskApp/badges/coverage.svg)](https://codeclimate.com/github/ravishan16/FlaskApp)[![Issue Count](https://codeclimate.com/github/ravishan16/FlaskApp/badges/issue_count.svg)](https://codeclimate.com/github/ravishan16/FlaskApp)
-[![Docker Hub](https://hub.docker.com/public/images/logos/mini-logo.svg)](https://hub.docker.com/r/ravishan/flaskapp/)
+Modern FastAPI application that provides a REST API for accessing and managing Project Gutenberg books.
 
-Setup DB
-========
+> **Note**: This project is currently being modernized from a Flask-based API to FastAPI. See the [Modernization Plan](#modernization-plan) for more details.
 
-``` python
-python manage.py db init 
-python manage.py db migrate 
-python manage.py db upgrade
+## Features (Coming Soon)
+
+- RESTful API for Project Gutenberg books data
+- JWT and API key authentication
+- Automatic API documentation with OpenAPI/Swagger
+- Docker and Docker Compose for easy deployment
+- SQLAlchemy 2.0 ORM with async support
+- PostgreSQL for production, SQLite for development/testing
+- Admin interface for managing books and authors
+- User interface for browsing and searching books
+
+## Project Goals
+
+This project aims to modernize the original PyPlate application by:
+
+- Migrating from Flask to the high-performance FastAPI framework.
+- Implementing a robust API for the Project Gutenberg dataset.
+- Adopting modern Python development practices (Poetry, SQLAlchemy 2.0 async, Pydantic).
+- Establishing a containerized development and deployment workflow using Docker.
+- Ensuring code quality through comprehensive testing and CI/CD with GitHub Actions.
+- Adding features like JWT/API Key authentication and eventually user/admin interfaces.
+
+## Quick Start
+
+### Local Development
+
+Follow these steps to set up and run the application locally:
+
+1.  **Setup Environment**:
+    ```bash
+    # Create Conda environment (if you haven't already)
+    conda create -n fastapi-modernization python=3.13
+    conda activate fastapi-modernization
+
+    # Install Poetry (if you haven't already)
+    conda install -c conda-forge poetry
+
+    # Install project dependencies
+    make setup
+    ```
+
+2.  **Initialize Database**:
+    ```bash
+    # Run database migrations (Alembic setup pending in Phase 2)
+    # make migrate
+
+    # Seed the database with initial data (Script pending in Phase 2)
+    # make init-db
+    ```
+    *Note: Database migration and seeding steps will be fully functional in Phase 2.*
+
+3.  **Run Application**:
+    ```bash
+    # Start the FastAPI development server
+    make run
+    ```
+
+4.  **Access API**:
+    - The API will be available at: `http://localhost:8000`
+    - Check the status: `http://localhost:8000/api/v1/status`
+    - Explore the API documentation (Swagger UI): `http://localhost:8000/api/v1/docs`
+
+### Using Docker
+
+```bash
+# Clone the repository
+git clone https://github.com/ravishan16/pyplate.git
+cd pyplate
+
+# Build and start the application container
+make docker-run
 ```
+*Note: The Docker container uses Python 3.11 due to `asyncpg` compatibility.*
 
-Run Flask Server Local
-======================
+Access the API and documentation as described in the local development section.
 
-``` python
-python manage.py db runserver
-```
+## Modernization Plan
 
-## Build Docker
+This project is being modernized from a Flask-based API to FastAPI with a Project Gutenberg dataset. The modernization is being implemented in the following phases:
 
-``` shell
-docker build -t flaskapi-docker:0.0.1 . 
-```
+### Phase 1: Project Setup & Infrastructure ✅
+- Clean up legacy files
+- Set up new project structure with FastAPI conventions
+- Create development environment with Poetry and Conda
+- Create initial FastAPI application with configuration
+- Set up GitHub Actions CI/CD pipeline
+- Configure testing framework (pytest)
+- Set up Docker and Docker Compose for local development
+- Update documentation for local setup and running
 
-## Run Docker image
+### Phase 2: Database Models & Gutenberg Dataset 🔄
+- Design SQLAlchemy models for Gutenberg data (Books, Authors, Genres, etc.)
+- Set up database migrations with Alembic
+- Create Pydantic schemas for data validation
+- Implement script to seed database with Gutenberg dataset
+- Set up SQLite for development/testing and PostgreSQL for production
 
-``` shell
-docker run -d -p 8000:4000 --name flaskapp flaskapi-docker:0.0.1 
-```
+### Phase 3: API Core Features 📅
+- Implement JWT and API key authentication
+- Create CRUD operation base classes
+- Set up error handling and response standardization
+- Configure logging
+- Implement basic search functionality
 
-## Docker Pull and Run 
+### Phase 4: API Endpoints & Documentation 📅
+- Implement comprehensive REST endpoints for Gutenberg data
+- Set up automatic API documentation with Swagger/ReDoc
+- Add pagination, filtering, and sorting
+- Implement advanced search capabilities
+- Create user documentation for API consumers
 
-``` shell
-docker run -d -p 8000:4000 --name flaskapp ravishan/flaskapp
-```
+### Phase 5: Testing & Quality Assurance 📅
+- Implement comprehensive test suite (unit, integration, API)
+- Set up test coverage reporting and linting
+- Create CI/CD pipeline for automated testing
+- Implement data validation and sanitization
+- Set up security scanning
 
-##  Check Docker Status
+### Phase 6: Admin Interface & User Interface 📅
+- Create simple admin panel to manage books and authors
+- Implement user interface for browsing and searching books
+- Add bookmarking and user collection features
+- Implement basic analytics
+- Add links to the original Gutenberg resources
 
-``` shell
-docker ps -all
-```
+## Documentation
 
-## Check Logs
+For complete documentation (coming soon), visit [Project Documentation](https://ravishan16.github.io/pyplate/).
 
-``` shell
-docker logs -tf flaskapp
+- [User Guide](https://ravishan16.github.io/pyplate/user/getting-started/)
+- [Developer Guide](https://ravishan16.github.io/pyplate/dev/setup/)
+- [API Reference](https://ravishan16.github.io/pyplate/api/overview/)
 
+## License
 
-2017-08-31T18:49:51.237387132Z Running Production Application
-2017-08-31T18:49:51.493803743Z [2017-08-31 18:49:51 +0000] [1] [INFO] Starting gunicorn 19.7.1
-2017-08-31T18:49:51.496746605Z [2017-08-31 18:49:51 +0000] [1] [INFO] Listening at: http://0.0.0.0:4000 (1)
-2017-08-31T18:49:51.496764705Z [2017-08-31 18:49:51 +0000] [1] [INFO] Using worker: sync
-2017-08-31T18:49:51.496767590Z [2017-08-31 18:49:51 +0000] [9] [INFO] Booting worker with pid: 9
-2017-08-31T18:49:51.602635517Z [2017-08-31 18:49:51 +0000] [14] [INFO] Booting worker with pid: 14
-2017-08-31T18:49:51.678074435Z [2017-08-31 18:49:51 +0000] [15] [INFO] Booting worker with pid: 15
-2017-08-31T18:49:51.748691820Z [2017-08-31 18:49:51 +0000] [20] [INFO] Booting worker with pid: 20
-``` 
-
-## Smoke Test
-
-``` shell
-curl -i http://localhost:8000/main/users
-
-HTTP/1.1 200 OK
-Server: gunicorn/19.7.1
-Date: Thu, 31 Aug 2017 18:47:39 GMT
-Connection: close
-Content-Type: application/json
-Content-Length: 18
-
-{
-  "users": []
-}
-```
-
-
--- Ravishankar Sivsasubramaniam
+This project is licensed under the MIT License - see the LICENSE file for details.

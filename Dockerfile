@@ -1,38 +1,36 @@
-FROM python:2.7-alpine
-MAINTAINER Ravishankar Sivasubramaniam "ravi_siva@live.com"
+FROM python:3.11-slim
 
-RUN addgroup -S flaskuser && adduser -S -g flaskuser flaskuser
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    POETRY_VERSION=1.7.1 \
+    POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_CREATE=false
 
-#ADD . /flaskapp
-ENV HOME /flaskapp
-ENV PATH $PATH:/flaskapp
+# Set working directory
+WORKDIR /app
 
+# Install system dependencies required for building Python packages with C extensions
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends gcc libc6-dev make python3-dev pkg-config \
+    && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /flaskapp
-COPY requirements.txt /flaskapp/
-COPY manage.py /flaskapp/
-COPY runserver.sh /flaskapp/
+# Install Poetry and project dependencies
+RUN pip install --no-cache-dir poetry==${POETRY_VERSION}
 
-RUN pip install gunicorn
-RUN pip install -r requirements.txt
+# Copy poetry configuration files
+COPY pyproject.toml poetry.lock* ./
 
-COPY flaskapp /flaskapp/flaskapp
-COPY runserver.sh /usr/local/bin/
+# Install dependencies
+RUN poetry install --only main --no-root
 
-RUN chmod 755 /flaskapp/runserver.sh
-RUN chmod 755 /usr/local/bin/runserver.sh
+# Copy the application code
+COPY app/ ./app/
 
-RUN echo "Listing"
-RUN ls -ltr /flaskapp
-RUN ls -ltr /flaskapp/flaskapp
+# Create a non-root user and switch to it for security
+RUN adduser --disabled-password --gecos "" appuser && \
+    chown -R appuser:appuser /app
+USER appuser
 
-
-RUN pwd
-#RUN python manage.py db init
-#RUN python manage.py db migrate
-#RUN python manage.py db upgrade
-EXPOSE 4000
-
-CMD ["runserver.sh"]
-#ENTRYPOINT ["python"]
-#CMD ["manage.py","runserver"]
+# Command to run the application
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

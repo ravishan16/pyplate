@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "pyplate-fastapi"
+version = "0.1.0"
+description = "Modernized FastAPI application with Project Gutenberg dataset"
+authors = ["Ravishankar Sivasubramaniam <ravi_siva@live.com>"]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.14"
+fastapi = "^0.109.0"
+uvicorn = {extras = ["standard"], version = "^0.27.0"}
+sqlalchemy = "^2.0.25"
+alembic = "^1.13.1"
+pydantic = "^2.6.0"
+pydantic-settings = "^2.1.0"
+asyncpg = "^0.29.0"
+aiosqlite = "^0.19.0"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.6"
+requests = "^2.31.0"
+python-dotenv = "^1.0.0"  # Added for .env file support
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-asyncio = "^0.23.5"
+pytest-cov = "^4.1.0"
+black = "^23.12.1"
+isort = "^5.13.2"
+mypy = "^1.8.0"
+flake8 = "^6.1.0"
+pre-commit = "^3.6.0"
+httpx = "^0.26.0"
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.5.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = "E203"
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["app/tests"]
+python_files = "test_*.py"
+pythonpath = [".", "app"]
+addopts = "--cov=app --cov-report=term-missing --cov-report=xml -v"

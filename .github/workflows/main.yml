@@ -1,0 +1,102 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+          
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          
+      - name: Configure Poetry
+        run: poetry config virtualenvs.create false
+          
+      - name: Install dependencies
+        run: |
+          poetry install
+
+      - name: Lint with flake8
+        run: |
+          poetry run flake8 app
+
+      - name: Check formatting with Black
+        run: |
+          poetry run black --check app
+          
+      - name: Check imports with isort
+        run: |
+          poetry run isort --check app
+          
+      - name: Type check with mypy
+        run: |
+          poetry run mypy app
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+          
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          
+      - name: Configure Poetry
+        run: poetry config virtualenvs.create false
+          
+      - name: Install dependencies
+        run: |
+          poetry install
+          
+      - name: Run tests
+        run: |
+          poetry run pytest app/tests/ --cov=app --cov-report=xml
+        env:
+          SQLALCHEMY_DATABASE_URI: sqlite+aiosqlite:///:memory:
+          
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: false
+
+  build:
+    needs: [lint, test]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - name: Build Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: false
+          tags: pyplate-fastapi:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
